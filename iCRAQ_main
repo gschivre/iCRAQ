@@ -1,5 +1,5 @@
 //iCRAQ stand for imageJ Chromocenter Recognition And Quantification
-run("Action Bar","/plugins/ActionBar/iCRAQ.txt");
+run("Action Bar","/plugins/iCRAQ_main.txt");
 exit();
 
 <startupAction>
