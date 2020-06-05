@@ -3,8 +3,7 @@ read_iCRAQ <- function(fname) {
     fname <- choose.files()
   }
   else if (missing(fname) & .Platform$OS.type != "windows") {
-    cat("Choose.files() is windows specific !\n")
-    return()
+    stop("Choose.files() is windows specific !\n")
   }
   library(readr)
   for (f in fname) {
