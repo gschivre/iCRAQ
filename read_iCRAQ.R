@@ -50,7 +50,7 @@ read_iCRAQ <- function(fname) {
         }
         chrnumber[i - 1] <- cpt
         chrnumberkept[i - 1] <-
-          cpt - sum(!keep[i:(i + cpt - 1)]) #Don't forget to remove undesired chromocenter from the count
+          cpt - sum(!keep[i:(i + cpt - 1)], na.rm = TRUE) #Don't forget to remove undesired chromocenter from the count
         if (cpt > 1) {
           #If chromocenter is removed we also need to removed it from IntDen and Area of the sum for RHF and RAF computation
           #Note that we can't use StdDev of the sum of chromocenter anymore
