@@ -776,6 +776,265 @@ setBatchMode(false);
 
 <line>
 <button>
+label=Manualy add Chromocenter
+icon=noicon
+arg=<macro>
+//This will allow to use the free hand drawing tool to manualy add a chromocenter
+var openImg=call("ij.Prefs.get", "variable.macro.nucleus.openImg", "");
+openImg=split(openImg, ",");
+var proj=call("ij.Prefs.get","variable.macro.nucleus.proj","Standard Deviation");
+var MinChr=call("ij.Prefs.get","variable.macro.nucleus.MinChr",0.0);
+var MaxChr=call("ij.Prefs.get", "variable.macro.nucleus.MaxChr",1.0);
+var nNuc=call("ij.Prefs.get","variable.macro.nucleus.nNuc",0);
+nNuc=parseInt(nNuc);
+if(nNuc==0){
+	print("No Nucleus detected");
+}
+else {
+	id=getImageID();
+	run("Z Project...", "projection=["+proj+"]");
+	run("mpl-inferno");
+	roiManager("Show All Without Labels");
+	if(nNuc==1){
+		indexnuc=0;
+		roiManager("select", indexnuc);
+		nucName=Roi.getName();
+		nucArea=getValue("Area raw");
+	}
+	else{
+		waitForUser("Select the ROI of the nucleus that contain the chromocenter, then click OK.");
+		nucName=Roi.getName();
+		indexnuc=findRoiWithName(nucName);
+		nucArea=getValue("Area raw");
+	}
+	//If ROI is not a nucleus
+	if(matches(nucName,".*Chr.*")){
+		print("Choose a nucleus ROI");
+	}
+	else{
+		setBatchMode(true);
+		nextindex=indexnuc+1;
+		if(nextindex<roiManager("count")){
+			roiManager("Select",nextindex);
+			nextName=Roi.getName();
+		}
+		else{
+			nextName="end";
+		}
+		//The chosen nucleus as no chromocenter yet
+		if(!matches(nextName,".*Chr.*")){
+			//Need to add and delete the nucleus ROI otherwise I can't deselect it !
+			roiManager("Add");
+			roiManager("Delete");
+			waitForUser("Use freehand selection to define chromocenter outline, then click OK.");
+			roiManager("add");
+			roiManager("select", roiManager("count")-1);
+			chrArea=getValue("Area raw");
+			if(chrArea<MinChr){
+				roiManager("Delete");
+			}
+			else if (chrArea/nucArea>MaxChr){
+				roiManager("Delete");
+			}
+			else{
+				idx=nDigitsIndex(1,3);
+				roiManager("rename",nucName+"_Chr_"+idx);
+			}
+		}
+		else{
+			//Count the number of chromocenter of the nucleus
+			index=indexnuc+1;
+			roiManager("Select",index);
+			rName=Roi.getName();
+			nChr=1;
+			chridxarr=newArray(0);
+			while(matches(rName,nucName+"_Chr.*")&&!matches(rName,nucName+"_Chr_sum")){
+				chridxarr=appendarr(chridxarr, index);
+				index++;
+				if(index<roiManager("count")){
+					roiManager("Select",index);
+					rName=Roi.getName();
+					if(matches(rName,nucName+"_Chr.*")&&!matches(rName,nucName+"_Chr_sum")){
+						nChr++;
+					}
+				}
+				else{
+					rName="end";
+				}
+			}
+			if(nChr>1){
+				//Remove the sum
+				delidx=findRoiWithName(nucName+"_Chr_sum");
+				roiManager("Select",delidx);
+				roiManager("Delete");
+				waitForUser("Use freehand selection to define chromocenter outline, then click OK.");
+				roiManager("add");
+				roiManager("select", roiManager("count")-1);
+				chrArea=getValue("Area raw");
+				if(chrArea<MinChr){
+					roiManager("Delete");
+				}
+				else if (chrArea/nucArea>MaxChr){
+					roiManager("Delete");
+				}
+				else{
+					chridxarr=appendarr(chridxarr, roiManager("count")-1);
+					idx=nDigitsIndex(nChr+1,3);
+					roiManager("rename",nucName+"_Chr_"+idx);
+					roiManager("Select", chridxarr);
+					roiManager("Combine");
+					roiManager("add");
+					roiManager("Select", roiManager("count")-1);
+					roiManager("rename",nucName+"_Chr_"+"sum");
+				}
+			}
+			else{
+				waitForUser("Use freehand selection to define chromocenter outline, then click OK.");
+				roiManager("add");
+				roiManager("select", roiManager("count")-1);
+				chrArea=getValue("Area raw");
+				if(chrArea<MinChr){
+					roiManager("Delete");
+				}
+				else if (chrArea/nucArea>MaxChr){
+					roiManager("Delete");
+				}
+				else{
+					chridxarr=appendarr(chridxarr, roiManager("count")-1);
+					idx=nDigitsIndex(nChr+1,3);
+					roiManager("rename",nucName+"_Chr_"+idx);
+					roiManager("Select", chridxarr);
+					roiManager("Combine");
+					roiManager("add");
+					roiManager("Select", roiManager("count")-1);
+					roiManager("rename",nucName+"_Chr_"+"sum");
+				}
+			}
+		}
+	}
+	roiManager("sort");
+	setBatchMode(false);
+	selectImage(id);
+	roiManager("Show All with labels");
+	closeBut(openImg,"id");
+}
+</macro>
+</line>
+
+<line>
+<button>
+label=Remove Chromocenter
+icon=noicon
+arg=<macro>
+//This will allow to remove a chromocenter
+var openImg=call("ij.Prefs.get", "variable.macro.nucleus.openImg", "");
+openImg=split(openImg, ",");
+var proj=call("ij.Prefs.get","variable.macro.nucleus.proj","Standard Deviation");
+var nNuc=call("ij.Prefs.get","variable.macro.nucleus.nNuc",0);
+nNuc=parseInt(nNuc);
+if(nNuc==0){
+	print("No Nucleus detected");
+}
+else{
+	id=getImageID();
+	run("Z Project...", "projection=["+proj+"]");
+	roiManager("Show All with labels");
+	waitForUser("Select the ROI of the unwanted chromocenter, then click OK.");
+	dName=Roi.getName();
+	//If ROI is a nucleus
+	if(!matches(dName,".*Chr.*")){
+		print("Choose a chromocenter ROI");
+	}
+	else{
+		setBatchMode(true);
+		//Find the nucleus associated with the selected chromocenter
+		nucName=split(dName,"_");
+		nucName=nucName[0]+"_"+nucName[1];
+		indexnuc=findRoiWithName(nucName);
+		nextindex=findRoiWithName(dName)+1;
+		if(nextindex<roiManager("count")){
+			roiManager("Select",nextindex);
+			nextName=Roi.getName();
+		}
+		else{
+			nextName="end";
+		}
+		delidx=findRoiWithName(dName);
+		//If ROI is a chromocenter sum remove all chromocenter
+		if(matches(dName,".*sum")){
+			todel=newArray(0);
+			index=indexnuc+1;
+			roiManager("Select",index);
+			rName=Roi.getName();
+			while(matches(rName,nucName+"_Chr.*")){
+				todel=appendarr(todel, rName);
+				index++;
+				if(index<roiManager("count")){
+					roiManager("Select",index);
+					rName=Roi.getName();
+				}
+				else{
+					rName="end";
+				}
+			}
+			for(i=0; i<todel.length; ++i){
+				delidx=findRoiWithName(todel[i]);
+				roiManager("Select",delidx);
+				roiManager("Delete");
+			}
+		}
+		//If the selected chromocenter ROI is the only one of the nucleus
+		else if(!matches(nextName,".*Chr.*")){
+			roiManager("Select",delidx);
+			roiManager("Delete");
+		}
+		else{
+			roiManager("Select",delidx);
+			roiManager("Delete");
+			delidx=findRoiWithName(nucName+"_Chr_sum");
+			roiManager("Select",delidx);
+			roiManager("Delete");
+			index=indexnuc+1;
+			roiManager("Select",index);
+			rName=Roi.getName();
+			cpt=1;
+			chridxarr=newArray(0);
+			while(matches(rName,nucName+"_Chr.*")){
+				chridxarr=appendarr(chridxarr, index);
+				idx=nDigitsIndex(cpt,3);
+				roiManager("rename",nucName+"_Chr_"+idx);
+				index++;
+				if(index<roiManager("count")){
+					roiManager("Select",index);
+					rName=Roi.getName();
+					if(matches(rName,nucName+"_Chr.*")){
+						cpt++;
+					}
+				}
+				else{
+					rName="end";
+				}
+			}
+			if(cpt>1){
+				roiManager("Select", chridxarr);
+				roiManager("Combine");
+				roiManager("add");
+				roiManager("Select", roiManager("count")-1);
+				roiManager("rename",nucName+"_Chr_"+"sum");
+			}
+		}
+		roiManager("sort");
+		setBatchMode(false);
+	}
+	closeBut(openImg,"id");
+	selectImage(id);
+	roiManager("Show All with labels");
+}
+</macro>
+</line>
+
+<line>
+<button>
 label=Show On Projection
 icon=noicon
 arg=<macro>
@@ -1045,4 +1304,3 @@ call("ij.Prefs.set", "variable.macro.nucleus.Starts", 0);
 call("ij.Prefs.set", "variable.macro.nucleus.Ends", 0);
 </macro>
 </line>
-
