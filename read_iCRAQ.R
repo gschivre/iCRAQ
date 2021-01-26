@@ -86,7 +86,7 @@ read_iCRAQ <- function(fname) {
     onecc <- rep(FALSE, length(nuc))
     onecc[which(chrnumber == 1) + 1] <- TRUE
     #Compute RHF
-    rhf <- rep(NA, sum(nuc & keep))
+    rhf <- rep(0, sum(nuc & keep))
     rhf[chrnumberkept[nuc &
                         keep] != 0] <-
       100 * data$IntDen[keep &
@@ -95,7 +95,7 @@ read_iCRAQ <- function(fname) {
                                                      keep &
                                                      chrnumberkept > 0]
     #Area of nucleus occupied by chromocenter
-    raf <- rep(NA, sum(nuc & keep))
+    raf <- rep(0, sum(nuc & keep))
     raf[chrnumberkept[nuc &
                         keep] != 0] <-
       100 * data$Area[keep &
