@@ -162,6 +162,7 @@ file=getArgument();
 //Update .lif files list
 var lifs=call("ij.Prefs.get", "variable.macro.nucleus.lifs", "");
 lifs=split(lifs, ",");
+print("Opening files...");
 if(lifs.length>0){
 	cpt=0;
 	for(i=0; i<lifs.length; i++){
@@ -198,7 +199,6 @@ for(i=0; i<nImages; ++i){
 	ImgNamearr[i]=temp;
 }
 call("ij.Prefs.set", "variable.macro.nucleus.openImg", String.join(ImgNamearr,","));
-print(toString(newLifs.length)+" files to be processed");
 </DnDAction>
 
 <line>
