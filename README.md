@@ -35,4 +35,6 @@ Finaly, the **Analyse Selections (2D)** will ask for a result file name, perform
 
 ![iCRAQ quantification](iCRAQ_009.png)
 
+The **Next Serie** button will close the current image and opened the next one in the queue. The **Reset** button remove all ROI and reset the number of nuclei detected to 0.
+
 This macro was developed during an internship in IBENS under the supervision of Fredy Barneche and Clara Bourbousse.
