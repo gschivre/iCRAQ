@@ -15,7 +15,7 @@ To run iCRAQ place `iCRAQ_main.txt` in a folder named "iCRAQ" inside the macros 
 ![iCRAQ nucleus](/Exemple/Illustration/iCRAQ_002.png)
 
 * Missed nuclei can be **added** (one at a time) by clicking on the **Manualy Add Nucleus** button and then using the *freehand* tool (or any other *ROI* drawing tools)
-* Unwanted nuclei *ROIs* can also be **removed** (one at a time) with the **Remove Nucleus** button and then choosing the ROI of the unwanted nucleus in the *Roi manager*
+* Unwanted nuclei *ROIs* can also be **removed** (one at a time) with the **Remove Nucleus** button and then choosing the *ROI* of the unwanted nucleus in the *Roi manager*
 * **Fuse Nucleus** button is mainly used to **fuse** elongated nuclei that have been cut by the nucleus detection process or to group nuclei to be removed:
 
 ![iCRAQ fuse1](/Exemple/Illustration/iCRAQ_003.png)
