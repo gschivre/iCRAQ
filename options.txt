@@ -1,0 +1,14 @@
+- Image scale factor: the multiplicative factor to convert image unit to µm
+- Median filter size: the radius of the median filter in pixels used during nuclei detection, the radius should be large enought to smooth out the chromocenter
+- Projection Type: the projection method used both for the show on projection macro and for the projection of the chromocenters features image before H-watershed segmentation
+- Nucleus Threshold Method: thresholding method used during nuclei detection
+- Nucleus minimum radius: minimum radius in µm of a nucleus, used to avoid spurious detection of small artifacts
+- Show (checkbox): check to open an interactive panel for choosing the nuclei segmentation threshold
+- Enlarge nucleus: number of pixel to consider outside of the nucleus ROI for croping during chromocenters segmentation, this was included to avoid border effect with the structure tensor calculation, it should allways be less than the minimal distance between any nucleus ROI and image border
+- Exclude nuclei on border (checkbox): check to automaticaly remove nuclei touching the image border
+- Median filter size for chromocenter: the raidus of the median filter used in chromocenter detection to smooth out the noise, it should be quite small
+- FeatureJ smoothing: smoothing parameter for the structure tensor calculation, should be small enought to have good approximate gradient
+- FeatureJ integration: integration parameter for the structure tensor calculation, should be large enought to blend signal in the z-direction thus leading to chromocenter features that is maximal inside each chromocenters (providing that the z-resolution is much smaller than the x-y one)
+- Chromocenter minimum radius: chromocenter minimum radius in µm
+- Chromocenter maximum size: chomocenter maximum area expressed in % of the nucleus area
+- Threshold On: bit-depth of the image use in nuclei detection and in H-watershed for chromocenter detection, using 8-bits lead to higher speed
