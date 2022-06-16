@@ -6,7 +6,7 @@ This macros rely on [**ActionBar**](https://figshare.com/articles/Custom_toolbar
 
 To run iCRAQ place `iCRAQ_main.txt` in a folder named "iCRAQ" inside the macros folder of ImageJ, launch ImageJ then go into *Plugins>>Macros>>Run...* and choose the `iCRAQ_main.txt` file:
 
-![iCRAQ launch](iCRAQ_001.png)
+![iCRAQ launch](/Exemple/Illustration/iCRAQ_001.png)
 
 * **drag and drop** one (or more) `.tif` (or `.lif`) files of microscopy z-stack on the iCRAQ buttons menu, the macro will open the first file (or the first serie of the first `.lif` file)
 * Tune the options via the **Option** button if needed (see the `options.txt` for more details)
