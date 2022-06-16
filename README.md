@@ -34,7 +34,7 @@ To run iCRAQ place `iCRAQ_main.txt` in a folder named "iCRAQ" inside the macros 
 [^2]: Tips: change the display style to `Contour overlay`, uncheck the `Allow Splitting` box, tune the `Seed dynamics` to have one watershed region per chromocenter, adjust the `Intensity threshold` to fit to the chromocenter and finaly decrease the `peak flooding` if needed
 [^3]: The `View image` in the *H-watershed* plugin menu allow to choose between the chromocenter *features* image (corresponding to the projection of the first eigenvalue of the structure tensor) or the projection of the original stack
 * Then **export** the chromocenters mask via the *H-watershed* plugin menu and click *Ok* on the pop-up window to proceed to the next nucleus[^4]
-[^4]: Note that the *H-watershed* plugin run in a java window that cannot be closed easily via ImageJ macro language, and the plugin windows will accumulate.
+[^4]: Note that the *H-watershed* plugin run in a java window that cannot be closed easily via ImageJ macro language, and the plugin windows will accumulate. In addition on each nucleus crop the *ROI* of the previous nuclei get overlaid, this is a known display issue but doesn't impair the quantification.
 * As for nuclei, missed chromocenter can be **added** manualy with the **Manualy add Chromocenter** button and first selecting the nucleus *ROI* from which the missed chromocenter belong to and then drawing it manualy
 * Chromocenters can also be **removed** with the **Remove Chromocenter** button and clicking the *ROI* of the unwanted chromocenter.
 * Quality of the segmentation can be shown on the 2D projection via the **Show On Projection** button before performing the quantification (**close the projection before running the quantification**):
