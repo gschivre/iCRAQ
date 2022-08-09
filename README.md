@@ -4,7 +4,7 @@ ImageJ macro developed to analyse chromocenters in plant nucleus[^1]
 
 This macros rely on [**ActionBar**](https://figshare.com/articles/Custom_toolbars_and_mini_applications_with_Action_Bar/3397603), [**ImageScience**](https://sites.imagej.net/ImageScience/) and [**SCF MPI CBG**](https://sites.imagej.net/SCF-MPI-CBG/) plugins.
 
-To run iCRAQ place `iCRAQ_main.txt` in a folder named "iCRAQ" inside the macros folder of ImageJ, launch ImageJ then go into *Plugins>>Macros>>Run...* and choose the `iCRAQ_main.txt` file:
+To run iCRAQ place the `iCRAQ` folder containing the `iCRAQ_main.txt` file inside the macros folder of ImageJ, launch ImageJ then go into *Plugins>>Macros>>Run...* and choose the `iCRAQ_main.txt` file:
 
 ![iCRAQ launch](/Exemple/Illustration/iCRAQ_001.png)
 
