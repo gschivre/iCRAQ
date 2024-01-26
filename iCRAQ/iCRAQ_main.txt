@@ -1033,7 +1033,7 @@ else {
 	atf = 1;
 }
 if(!atf){
-	print(openf_nuc, String.join(param_nuc, ",") + "\n");
+	print(openf_nuc, String.join(param_nuc, "\t") + "\n");
 	File.close(openf_nuc);
 }
 
@@ -1049,7 +1049,7 @@ else {
 	atf = 1;
 }
 if(!atf){
-	print(openf_cc, String.join(param_cc, ",") + "\n");
+	print(openf_cc, String.join(param_cc, "\t") + "\n");
 	File.close(openf_cc);
 }
 setBatchMode(true);
@@ -1075,7 +1075,9 @@ while(i<nNuc){
 	}
 	//chromocenter parameters
 	j=nucidx+1;
-	roiManager("select", j);
+	if(j<roiManager("count")){
+		roiManager("select", j);
+	}
 	rName=Roi.getName();
 	while(matches(rName,".*Chr.*")&&j<roiManager("count")){
 		row_cc[1]=rName;
